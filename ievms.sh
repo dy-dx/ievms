@@ -217,14 +217,15 @@ find_iso() {
 # Attach a dvd image to the virtual machine.
 attach() {
     log "Attaching ${3}"
-    VBoxManage storageattach "${1}" --storagectl "IDE Controller" --port 1 \
+    VBoxManage storageattach "${1}" --storagectl "IDE" --port 1 \
         --device 0 --type dvddrive --medium "${2}"
 }
 
 # Eject the dvd image from the virtual machine.
 eject() {
     log "Ejecting ${2}"
-    VBoxManage modifyvm "${1}" --dvd none
+    VBoxManage storageattach "${1}" --storagectl "IDE" --port 1 \
+        --device 0 --medium emptydrive
 }
 
 # Boot the virtual machine with the control ISO in the dvd drive then wait for
